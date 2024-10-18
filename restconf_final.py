@@ -10,10 +10,9 @@ api_url = "https://10.0.15.107/restconf/data"
 # the RESTCONF HTTP headers, including the Accept and Content-Type
 # Two YANG data formats (JSON and XML) work with RESTCONF 
 # headers = <!!!REPLACEME with Accept and Content-Type information headers!!!>
-headers = {
-    "Accept": "application/yang-data+json",
-    "Content-type": "application/yang-data+json"
-}
+headers = { "Accept": "application/yang-data+json", 
+            "Content-type":"application/yang-data+json"
+           }
 basicauth = ("admin", "cisco")
 studentID = "65070131"
 
@@ -30,22 +29,25 @@ def create():
     yangConfig = {
         "ietf-interfaces:interface": {
             "name": "Loopback65070131",
-            "description": "65070131",
+            "description": "My RESTCONF loopback",
             "type": "iana-if-type:softwareLoopback",
             "enabled": True,
             "ietf-ip:ipv4": {
                 "address": [
-                    {"ip": "172.30.131.1", 
-                     "netmask": "255.255.255.0"}
-                     ]
+                    {
+                        "ip": "172.30.131.1",
+                        "netmask": "255.255.255.0"
+                    }
+                ]
             },
-            "ietf-ip:ipv6": {},
+            "ietf-ip:ipv6": {}
         }
     }
 
-    resp = requests.post(
+
+    resp = requests.put(
         # <!!!REPLACEME with URL!!!>,
-        api_url + "ietf-interfaces:interfaces",
+        api_url + "/ietf-interfaces:interfaces/interface=Loopback65070131",
         data=json.dumps(yangConfig), 
         auth=basicauth, 
         headers=headers, 
@@ -169,9 +171,9 @@ def status():
         admin_status = response_json["openconfig-interfaces:state"]["admin-status"]
         oper_status = response_json["openconfig-interfaces:state"]["oper-status"]
         print("admin: ", admin_status, "oper: ", oper_status)
-        if admin_status == 'up' and oper_status == 'up':
+        if admin_status == 'UP' and oper_status == 'UP':
             return "Interface loopback 65070131 is enabled"
-        elif admin_status == 'down' and oper_status == 'down':
+        elif admin_status == 'DOWN' and oper_status == 'DOWN':
             return "Interface loopback 65070131 is disabled"
     elif(resp.status_code == 404):
         print("STATUS NOT FOUND: {}".format(resp.status_code))
