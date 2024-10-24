@@ -5,7 +5,7 @@ requests.packages.urllib3.disable_warnings()
 # Router IP Address is 10.0.15.189
 #ตอนเทสใช้ 10.0.15.107
 # "<!!!REPLACEME with URL of RESTCONF Configuration API!!!>"
-api_url = "https://10.0.15.107/restconf/data"
+api_url = "https://10.0.15.189/restconf/data"
 
 # the RESTCONF HTTP headers, including the Accept and Content-Type
 # Two YANG data formats (JSON and XML) work with RESTCONF 
